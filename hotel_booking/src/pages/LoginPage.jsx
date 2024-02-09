@@ -14,17 +14,17 @@ export default function LoginPage() {
   const { setUser, user } = useContext(UserContext);
 
   // useEffect(() => {
-  const fetchData = async () => {
-    try {
-      await axios.get("/profile").then((data) => {
-        setName(data.name);
-        console.log(data);
-      });
-    } catch {
-      console.log("Error while fetching");
-    }
-  };
-  fetchData();
+  //   const fetchData = async () => {
+  //     try {
+  //       await axios.get("/profile").then((data) => {
+  //         setName(data.name);
+  //         console.log(data);
+  //       });
+  //     } catch {
+  //       console.log("Error while fetching");
+  //     }
+  //   };
+  //   fetchData();
   // }, [name]);
 
   // async function handleLoginSubmit(ev) {
@@ -46,6 +46,10 @@ export default function LoginPage() {
       // localStorage.setItem("token", data.token);
       setUser(data);
       alert("Login Successful");
+      console.log(data.name);
+
+      // Store name in local storage
+      localStorage.setItem("name", data.name);
 
       setRedirect(true);
     } catch (error) {
@@ -57,11 +61,15 @@ export default function LoginPage() {
   useEffect(() => {
     // Retrieve user details from local storage
     const token = localStorage.getItem("token");
+    // Retrieve user details from local storage
+    const storedName = localStorage.getItem("name");
     if (token && !user) {
       axios
         .get("/profile", { headers: { Authorization: `Bearer ${token}` } })
         .then(({ data }) => {
           setUser(data);
+          // Set the name from local storage
+          setName(storedName);
         })
         .catch((error) => {
           console.error("Profile retrieval error:", error);

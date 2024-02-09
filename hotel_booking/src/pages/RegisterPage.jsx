@@ -1,12 +1,13 @@
 // GMDEdB0lWPhz6N69
 // new : 8W207qhHc43pERdz
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   function registerUser(ev) {
     ev.preventDefault();
     // axios.get("/test").then((value) => {
@@ -22,8 +23,9 @@ export default function RegisterPage() {
       })
       .then((response) => {
         console.log(response.data.userDoc); // Log the response data
-        // localStorage.setItem("token", response.data.userDoc.name);
+        localStorage.setItem("token", response.data.userDoc.name);
         alert("Registeration Successful. Now you can LogIn");
+        navigate("/login");
       })
       .catch((error) => {
         console.error("Registration failed:", error);
@@ -33,6 +35,7 @@ export default function RegisterPage() {
         alert("Registration failed. Please try again.");
       });
   }
+
   return (
     <div className="mt-4 grow flex items-center justify-around">
       <div className="mb-32">
