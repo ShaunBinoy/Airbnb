@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import BookingWidget from "../BookingWidget";
 
 export default function SinglePlacePage() {
   const { id } = useParams();
@@ -24,10 +25,10 @@ export default function SinglePlacePage() {
       <div className="absolute inset-0 bg-white min-h-screen">
         <div className="p-8 grid gap-4">
           <div>
-            <h2 className="text-xl">Photos of {place.title}</h2>
+            <h2 className="text-xl mr-28">Photos of {place.title}</h2>
             <button
               onClick={() => setShowAllPhotos(false)}
-              className="fixed right-12 top-8 flex gap-1 py-1 px-2 rounded-2xl shadow shadow-gray-500"
+              className="fixed right-12 top-8 flex gap-1 py-1 px-2 rounded-2xl shadow shadow-gray-400"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +91,8 @@ export default function SinglePlacePage() {
             {place.photos?.[0] && (
               <div>
                 <img
-                  className="aspect-square object-cover"
+                  onClick={() => setShowAllPhotos(true)}
+                  className="aspect-square object-cover cursor-pointer"
                   src={"http://localhost:4000/uploads/" + place.photos?.[0]}
                   alt=""
                 />
@@ -100,7 +102,8 @@ export default function SinglePlacePage() {
           <div className="grid">
             {place.photos?.[1] && (
               <img
-                className="aspect-square object-cover"
+                onClick={() => setShowAllPhotos(true)}
+                className="aspect-square object-cover cursor-pointer"
                 src={"http://localhost:4000/uploads/" + place.photos?.[1]}
                 alt=""
               />
@@ -108,7 +111,8 @@ export default function SinglePlacePage() {
             <div className="overflow-hidden">
               {place.photos?.[2] && (
                 <img
-                  className="aspect-square object-cover relative top-2"
+                  onClick={() => setShowAllPhotos(true)}
+                  className="aspect-square object-cover relative top-2 cursor-pointer"
                   src={"http://localhost:4000/uploads/" + place.photos?.[2]}
                   alt=""
                 />
@@ -133,15 +137,24 @@ export default function SinglePlacePage() {
             />
           </svg>
           Show more Photos
-        </button>  
+        </button>
       </div>
-      <div className="my-4">
-        <h2 className="text-2xl font-semibold">Description</h2>
-        {place.description}
+      <div className="mt-8 grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr]">
+        <div>
+          <div className="my-4">
+            <h2 className="text-2xl font-semibold">Description</h2>
+            {place.description}
+          </div>
+          Check-In : {place.checkIn} <br />
+          Check-Out : {place.checkOut} <br />
+          Maximum No. of Guests : {place.maxGuest}
+        </div>
+        <div>
+          <BookingWidget place={place} />
+        </div>
       </div>
-      <div>
-        
-      </div>
+      <h2 className="text-2xl font-semibold mt-4">Extra Info</h2>
+      <div className="mt-2 text-gray-800">{place.extraInfo}</div>
     </div>
   );
 }

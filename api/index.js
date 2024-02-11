@@ -256,4 +256,8 @@ app.get("/places", async (req, res) => {
   res.json(await Place.find());
 });
 
+app.post("/booking", (req, res) => {
+  const { place, checkIn, checkOut, numberOfGuest, name, phone } = req.body;
+});
+
 app.listen(4000);
