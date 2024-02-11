@@ -19,6 +19,7 @@ export default function PlacesFormPage() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuest, setMaxGuest] = useState("");
+  const [price, setPrice] = useState(100);
   const [redirect, setRedirect] = useState(false);
 
   //Update
@@ -38,6 +39,7 @@ export default function PlacesFormPage() {
       setCheckIn(data.checkIn);
       setCheckOut(data.checkOut);
       setMaxGuest(data.maxGuest);
+      setPrice(data.price);
     });
   }, [id]);
 
@@ -54,6 +56,7 @@ export default function PlacesFormPage() {
       checkIn,
       checkOut,
       maxGuest,
+      price,
     };
     // console.log(placeData.addedPhotos);
 
@@ -71,8 +74,8 @@ export default function PlacesFormPage() {
         console.error("Error submitting data:", error);
         // Handle error (e.g., display error message to user)
       }
-    } 
-    
+    }
+
     //---------------------------------------------------------------new place create---------------------------------------------------------------------------------------------------------
     else {
       try {
@@ -150,7 +153,7 @@ export default function PlacesFormPage() {
         <p className="text-gray-500 text-sm">
           Add the Check-In & Check-Out time.
         </p>
-        <div className="grid sm:grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           <div>
             <h3 className="mt-2 px-1">Check-In Time</h3>
             <input
@@ -174,6 +177,15 @@ export default function PlacesFormPage() {
             <input
               value={maxGuest}
               onChange={(ev) => setMaxGuest(ev.target.value)}
+              type="number"
+              placeholder="8 Person"
+            />
+          </div>
+          <div>
+            <h3 className="mt-2 px-1">Price Per Night</h3>
+            <input
+              value={price}
+              onChange={(ev) => setPrice(ev.target.value)}
               type="number"
               placeholder="8 Person"
             />

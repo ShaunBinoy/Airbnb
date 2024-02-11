@@ -169,6 +169,7 @@ app.post("/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuest,
+    price,
   } = req.body;
   const placeDoc = await Place.create({
     email,
@@ -181,6 +182,7 @@ app.post("/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuest,
+    price,
   });
   res.json(placeDoc);
 });
@@ -222,6 +224,7 @@ app.put("/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuest,
+    price,
   } = req.body;
   console.log(addedPhotos);
   // const { email } = req.query;
@@ -242,6 +245,7 @@ app.put("/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuest,
+    price,
   });
   // console.log(placeDoc.photos);
   await placeDoc.save();
