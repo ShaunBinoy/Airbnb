@@ -7,9 +7,15 @@ export default function BookingWidget(place) {
   const [checkOut, setCheckOut] = useState("");
   const [numberOfGuest, setNumberOfGuest] = useState(1);
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [mobile, setMobile] = useState("");
   const realPlace = place.place;
 
+  function bookThisPlace() {
+    axios.post("/bookings");
+  }
+
+  //   console.log(play.price)
+  //   console.log(place.price);
   let numberOfNights = 0;
   if (checkIn && checkOut) {
     numberOfNights = differenceInCalendarDays(
@@ -18,25 +24,6 @@ export default function BookingWidget(place) {
     );
     // console.log(numberOfNights);
   }
-
-  async function bookThisPlace() {
-    const data = {
-      place: realPlace.id,
-      checkIn,
-      checkOut,
-      numberOfGuest,
-      name,
-      phone,
-      price: numberOfNights * realPlace.price,
-    };
-    // console.log(data);
-
-    await axios.post("/bookings", data);
-  }
-
-  //   console.log(play.price)
-  //   console.log(place.price);
-
   return (
     <div className="bg-gray-100 shadow-md py-4 px-3 rounded-2xl ">
       <div className="text-lg font-semibold text-center">
@@ -82,8 +69,8 @@ export default function BookingWidget(place) {
             <input
               type="tel"
               placeholder="9876543210"
-              value={phone}
-              onChange={(ev) => setPhone(ev.target.value)}
+              value={mobile}
+              onChange={(ev) => setMobile(ev.target.value)}
             />
           </div>
         )}

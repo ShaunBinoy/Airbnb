@@ -11,6 +11,7 @@ const Place = require("./models/Place");
 const multer = require("multer");
 const { log } = require("console");
 const fs = require("fs");
+const Booking = require("./models/Booking").default;
 
 require("dotenv").config();
 const app = express();
@@ -256,8 +257,21 @@ app.get("/places", async (req, res) => {
   res.json(await Place.find());
 });
 
-app.post("/booking", (req, res) => {
-  const { place, checkIn, checkOut, numberOfGuest, name, phone } = req.body;
+app.post("/bookings", (req, res) => {
+  const { place, checkIn, checkOut, numberOfGuest, name, phone, price } =
+    req.body;
+  Booking.create({
+    place,
+    checkIn,
+    checkOut,
+    numberOfGuest,
+    name,
+    phone,
+    price,
+  }).then((err, doc) => {
+    if (err) throw err;
+    res.json(doc);
+  });
 });
 
 app.listen(4000);
