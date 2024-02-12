@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { differenceInCalendarDays } from "date-fns";
 import axios from "axios";
+import { UserContext } from "./UserContext";
+import { useEffect } from "react";
 
 export default function BookingWidget(place) {
   const [checkIn, setCheckIn] = useState("");
@@ -8,6 +10,14 @@ export default function BookingWidget(place) {
   const [numberOfGuest, setNumberOfGuest] = useState(1);
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+    }
+  }, [user]);
+
   const realPlace = place.place;
 
   function bookThisPlace() {

@@ -11,7 +11,7 @@ const Place = require("./models/Place");
 const multer = require("multer");
 const { log } = require("console");
 const fs = require("fs");
-const Booking = require("./models/Booking").default;
+const Booking = require("./models/Booking");
 
 require("dotenv").config();
 const app = express();
@@ -19,6 +19,15 @@ const app = express();
 const bcryptSalt = bcrypt.genSaltSync(10);
 // const jwtSecret = "afaefewew";
 const jwtSecret = process.env.JWT_SECRET || "your-secure-secret";
+
+// function getUserDataFromToken(req) {
+//   return new Promise((resolve, reject) => {
+//     jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+//       if (err) throw err;
+//       resolve(userData);
+//     });
+//   });
+// }
 
 app.use(express.json());
 app.use(cookieParser());
@@ -257,7 +266,8 @@ app.get("/places", async (req, res) => {
   res.json(await Place.find());
 });
 
-app.post("/bookings", (req, res) => {
+app.post("/bookings", async (req, res) => {
+  // const userData = await getUserDataFromToken(req);
   const { place, checkIn, checkOut, numberOfGuest, name, phone, price } =
     req.body;
   Booking.create({
@@ -268,10 +278,20 @@ app.post("/bookings", (req, res) => {
     name,
     phone,
     price,
-  }).then((err, doc) => {
-    if (err) throw err;
-    res.json(doc);
-  });
+    // user: userData.id,
+  })
+    .then((doc) => {
+      res.json(doc);
+      // console.log(doc);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.get("/bookings", async (req, res) => {
+  // const userData = await getUserDataFromToken(req);
+  res.json(await Booking.find().populate('place'));
 });
 
 app.listen(4000);
